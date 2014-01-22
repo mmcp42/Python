@@ -19,8 +19,8 @@ wind = ''
 winddir = ''
 rain = ''
 wxid = ''
-putRecord = 'http://www..../PutRecord.php'          # URL of scrit to add a record to the database
-getTimestamp = 'http://www..../ts.php'   # URL of script to get Unix epoch
+putRecord = 'http://www.../PutRecord.php'       # URL of scrit to add a record to the database
+getTimestamp = 'http://www.../ts.php'           # URL of script to get Unix epoch
 debug = ''
 line = ''
 
@@ -104,6 +104,12 @@ while True:
             if i >= 0:
                 # bad timestamp, so get new from server
                 reply = urllib2.urlopen(getTimestamp).read()
+                
+                # strip leading ts=
+                reply = re.sub("ts=". "", reply)
+                
+                # strip trailing <br>
+                reply = re.sub("<br>". "", reply)
                 ser.write('h ' + str(reply) + '\n')
 
         # see if this line has ts:
